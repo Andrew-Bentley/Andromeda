@@ -33,3 +33,29 @@ function orbisius_ct_andromeda_child_theme_enqueue_styles() {
 }
 
 add_action( 'wp_enqueue_scripts', 'orbisius_ct_andromeda_child_theme_enqueue_styles' );
+
+// load custom jquery script
+// TODO: 'custom_script.js' should have a more effective name and function
+
+if ( !is_admin() ) { // instruction to only load if it is not the admin area
+   // register your script location, dependencies and version
+   wp_register_script('custom_script',
+       get_bloginfo('stylesheet_directory') . '/js/custom_script.js',
+       array('jquery'),
+       '1.0' );
+
+   // enqueue the script
+   wp_enqueue_script('custom_script');
+}
+
+// register custom navs
+function register_my_menus() {
+  register_nav_menus(
+    array(
+      'main-nav' => __( 'Main Nav' ),
+      'another-menu' => __( 'Another Menu' ),
+      'an-extra-menu' => __( 'An Extra Menu' )
+    )
+  );
+}
+add_action( 'init', 'register_my_menus' );
